@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
       translations: MyAppTranslations(),
       debugShowCheckedModeBanner: false,
       getPages: AppPages.pages,   //所有页面列表
-      initialRoute: AppRoutes.MAIN,
+      initialRoute: AppRoutes.INTRO,
       // 添加一个回调语言选项，以备上面指定的语言翻译不存在
       localizationsDelegates: const [
         //此处

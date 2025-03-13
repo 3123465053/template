@@ -8,5 +8,7 @@ abstract class AppRoutes {
   ///识别页面
    static const String RECOGNITION='/recognitionPage';
 
+   static const String INTRO='/intro';
+
 
 }
