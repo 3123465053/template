@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'app/common/i18n/i18n.dart';
+import 'app/routes/app_pages.dart';
 
-import 'app/i18n/i18n.dart';
-import 'app/router/app_pages.dart';
-import 'app/router/app_routes.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   //顶部状态栏透明
@@ -32,8 +31,8 @@ class MyApp extends StatelessWidget {
       locale: locale,
       translations: MyAppTranslations(),
       debugShowCheckedModeBanner: false,
-      getPages: AppPages.pages,   //所有页面列表
-      initialRoute: AppRoutes.INTRO,
+      getPages: AppPages.Pages,   //所有页面列表
+      initialRoute: AppRoutes.MAIN,
       // 添加一个回调语言选项，以备上面指定的语言翻译不存在
       localizationsDelegates: const [
         //此处

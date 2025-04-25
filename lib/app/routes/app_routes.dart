@@ -1,11 +1,9 @@
 part of 'app_pages.dart';
 
-abstract class Routes {
-  static const MAIN = '/';
-  static const HOME = '/home';
-  static const RESULT = '/result';
-  static const HISTORY = '/history';
-  static const SETTINGS = '/settings';
-  static const MEMBERSHIP='/membership';
-  static const EDITOR="/edit";
+abstract class AppRoutes {
+  ///首页
+  static const String HOME = "/home";
+
+  ///主要页面
+  static const String MAIN='/main';
 } 
