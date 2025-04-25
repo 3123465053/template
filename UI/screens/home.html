@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图片识别应用 - 首页</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+    body {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        overflow: hidden;
+        background-color: #f8f9fa;
+    }
+
+    .app-content {
+        height: calc(100vh - 88px);
+        overflow-y: auto;
+        padding: 16px;
+        padding-bottom: 80px;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .camera-button {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        background: linear-gradient(145deg, #007aff, #0055ff);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 15px rgba(0, 122, 255, 0.4);
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .camera-button:active {
+        transform: scale(0.95);
+        box-shadow: 0 2px 8px rgba(0, 122, 255, 0.3);
+    }
+    
+    .gallery-button {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        background: linear-gradient(145deg, #34c759, #30b350);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 15px rgba(52, 199, 89, 0.4);
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .gallery-button:active {
+        transform: scale(0.95);
+        box-shadow: 0 2px 8px rgba(52, 199, 89, 0.3);
+    }
+    
+    .recent-item {
+        width: 80px;
+        height: 80px;
+        border-radius: 16px;
+        overflow: hidden;
+        position: relative;
+        flex-shrink: 0;
+    }
+    
+    .recent-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .recent-item .badge {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+    }
+    
+    .feature-card {
+        border-radius: 20px;
+        padding: 16px;
+        background-color: #f0f5ff;
+        border: 1px solid #d0e0ff;
+        transition: transform 0.2s;
+    }
+    
+    .feature-card:active {
+        transform: scale(0.98);
+    }
+    
+    .welcome-banner {
+        background: linear-gradient(135deg, #4f46e5, #7c3aed);
+        border-radius: 20px;
+        padding: 16px;
+        margin-bottom: 20px;
+        color: white;
+    }
+    
+    .recognition-types-container {
+        display: flex;
+        overflow-x: auto;
+        padding: 10px 0;
+        margin-bottom: 20px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+    
+    .recognition-types-container::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .recognition-type {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 80px;
+        flex-shrink: 0;
+        margin-right: 15px;
+    }
+    
+    .recognition-type-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 8px;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .recognition-type-icon:active {
+        transform: scale(0.95);
+    }
+    
+    .recognition-type.active .recognition-type-icon {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    .recognition-type.active .recognition-type-label {
+        font-weight: 600;
+        color: #007aff;
+    }
+    
+    .premium-banner {
+        background: linear-gradient(135deg, #ffb347, #ffcc33);
+        border-radius: 16px;
+        padding: 16px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .bottom-tab-bar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: white;
+        display: flex;
+        justify-content: space-around;
+        padding: 10px 0;
+        border-top: 1px solid #e5e7eb;
+    }
+    </style>
+</head>
+<body>
+    <div class="device-status-bar">
+        <div class="status-bar-content">
+            <div class="status-bar-left">
+                <span class="status-bar-time">9:41</span>
+            </div>
+            <div class="status-bar-right">
+                <i class="fas fa-signal mr-1"></i>
+                <i class="fas fa-wifi mx-1"></i>
+                <i class="fas fa-battery-full ml-1"></i>
+            </div>
+        </div>
+    </div>
+    
+    <div class="app-content">
+        <!-- 欢迎横幅 -->
+        <div class="welcome-banner">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h1 class="text-xl font-bold">你好，小明</h1>
+                    <p class="text-sm text-blue-100">今天想识别什么？</p>
+                </div>
+                <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+                    <i class="fas fa-bell text-white"></i>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 识别类型选择 -->
+        <div class="mb-6">
+            <h2 class="text-lg font-semibold text-gray-800 mb-3">选择识别类型</h2>
+            <div class="recognition-types-container">
+                <div class="recognition-type active" data-type="general">
+                    <div class="recognition-type-icon" style="background-color: #e6f2ff;">
+                        <i class="fas fa-cube text-blue-500"></i>
+                    </div>
+                    <span class="recognition-type-label text-xs text-center">通用物体</span>
+                </div>
+                
+                <div class="recognition-type" data-type="dish">
+                    <div class="recognition-type-icon" style="background-color: #fff8e6;">
+                        <i class="fas fa-utensils text-orange-500"></i>
+                    </div>
+                    <span class="recognition-type-label text-xs text-center">菜品</span>
+                </div>
+                
+                <div class="recognition-type" data-type="animal">
+                    <div class="recognition-type-icon" style="background-color: #e6ffed;">
+                        <i class="fas fa-paw text-green-500"></i>
+                    </div>
+                    <span class="recognition-type-label text-xs text-center">动物</span>
+                </div>
+                
+                <div class="recognition-type" data-type="plant">
+                    <div class="recognition-type-icon" style="background-color: #f0e6ff;">
+                        <i class="fas fa-leaf text-purple-500"></i>
+                    </div>
+                    <span class="recognition-type-label text-xs text-center">植物</span>
+                </div>
+                
+                <div class="recognition-type" data-type="fruit">
+                    <div class="recognition-type-icon" style="background-color: #ffe6eb;">
+                        <i class="fas fa-apple-alt text-red-500"></i>
+                    </div>
+                    <span class="recognition-type-label text-xs text-center">果蔬</span>
+                </div>
+                
+                <div class="recognition-type" data-type="landmark">
+                    <div class="recognition-type-icon" style="background-color: #f5e6ff;">
+                        <i class="fas fa-monument text-purple-500"></i>
+                    </div>
+                    <span class="recognition-type-label text-xs text-center">地标</span>
+                </div>
+                
+                <div class="recognition-type" data-type="car">
+                    <div class="recognition-type-icon" style="background-color: #e6f2ff;">
+                        <i class="fas fa-car text-blue-500"></i>
+                    </div>
+                    <span class="recognition-type-label text-xs text-center">车型</span>
+                </div>
+                
+                <div class="recognition-type" data-type="qrcode">
+                    <div class="recognition-type-icon" style="background-color: #f3e5f5;">
+                        <i class="fas fa-qrcode text-purple-600"></i>
+                    </div>
+                    <span class="recognition-type-label text-xs text-center">扫码</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 主要操作按钮 -->
+        <div class="flex justify-center items-center space-x-6 my-8">
+            <div class="flex flex-col items-center">
+                <div class="camera-button mb-2">
+                    <i class="fas fa-camera text-white text-2xl"></i>
+                </div>
+                <span class="text-sm text-gray-700">拍照识别</span>
+            </div>
+            
+            <div class="flex flex-col items-center">
+                <div class="gallery-button mb-2">
+                    <i class="fas fa-images text-white text-2xl"></i>
+                </div>
+                <span class="text-sm text-gray-700">从相册选择</span>
+            </div>
+        </div>
+        
+        <!-- 最近识别 -->
+        <div class="mb-6">
+            <div class="flex justify-between items-center mb-3">
+                <h2 class="text-lg font-semibold text-gray-800">最近识别</h2>
+                <a href="#" class="text-sm text-blue-500" onclick="navigateToScreen('history'); return false;">查看全部</a>
+            </div>
+            
+            <div class="flex space-x-3 overflow-x-auto pb-2">
+                <div class="recent-item">
+                    <img src="https://images.unsplash.com/photo-1520412099551-62b6bafeb5bb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fHBsYW50fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60" alt="多肉植物">
+                    <div style="display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;border-radius:10px;background-color:#ff3b30;color:white;font-size:12px;font-weight:bold;padding:0 6px;position:absolute;top:5px;right:5px;">99%</div>
+                </div>
+                
+                <div class="recent-item">
+                    <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8Zm9vZHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60" alt="食物">
+                    <div style="display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;border-radius:10px;background-color:#ff3b30;color:white;font-size:12px;font-weight:bold;padding:0 6px;position:absolute;top:5px;right:5px;">95%</div>
+                </div>
+                
+                <div class="recent-item">
+                    <img src="https://images.unsplash.com/photo-1588412079929-790f9ef0d8e6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fHFyJTIwY29kZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60" alt="二维码">
+                    <div style="display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;border-radius:10px;background-color:#ff3b30;color:white;font-size:12px;font-weight:bold;padding:0 6px;position:absolute;top:5px;right:5px;">100%</div>
+                </div>
+                
+                <div class="recent-item">
+                    <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTh8fGxhbmRzY2FwZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60" alt="风景">
+                    <div style="display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;border-radius:10px;background-color:#ff3b30;color:white;font-size:12px;font-weight:bold;padding:0 6px;position:absolute;top:5px;right:5px;">92%</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 高级会员横幅 -->
+        <div class="premium-banner">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h3 class="font-bold text-gray-800">升级到高级会员</h3>
+                    <p class="text-xs text-gray-700">解锁所有高级功能和无限识别次数</p>
+                </div>
+                <button class="bg-white text-yellow-600 px-3 py-1 rounded-full text-xs font-medium">了解更多</button>
+            </div>
+        </div>
+        
+        <!-- 功能卡片 -->
+        <div class="mb-6">
+            <h2 class="text-lg font-semibold text-gray-800 mb-3">探索功能</h2>
+            <div class="grid grid-cols-2 gap-3">
+                <div class="feature-card">
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                            <i class="fas fa-language text-blue-500"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-gray-800">多语言识别</h3>
+                            <p class="text-xs text-gray-600">支持20+种语言</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center mr-3">
+                            <i class="fas fa-qrcode text-purple-500"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-gray-800">扫码识别</h3>
+                            <p class="text-xs text-gray-600">快速扫描二维码</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center mr-3">
+                            <i class="fas fa-leaf text-green-500"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-gray-800">植物识别</h3>
+                            <p class="text-xs text-gray-600">识别超过5000种植物</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 rounded-full bg-yellow-100 flex items-center justify-center mr-3">
+                            <i class="fas fa-utensils text-yellow-500"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-gray-800">食物识别</h3>
+                            <p class="text-xs text-gray-600">获取营养成分信息</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="bottom-tab-bar">
+        <div class="tab-item active" data-screen="home">
+            <i class="fas fa-home"></i>
+            <span>首页</span>
+        </div>
+        <div class="tab-item" data-screen="results">
+            <i class="fas fa-search"></i>
+            <span>识别</span>
+        </div>
+        <div class="tab-item" data-screen="history">
+            <i class="fas fa-history"></i>
+            <span>历史</span>
+        </div>
+        <div class="tab-item" data-screen="profile">
+            <i class="fas fa-user"></i>
+            <span>我的</span>
+        </div>
+        <div class="tab-item" data-screen="settings">
+            <i class="fas fa-cog"></i>
+            <span>设置</span>
+        </div>
+    </div>
+    
+    <script src="../js/api/recognition.js"></script>
+    <script src="../js/recognition-process.js"></script>
+    <script src="../js/main.js"></script>
+</body>
+</html>
