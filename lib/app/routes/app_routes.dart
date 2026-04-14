@@ -6,4 +6,7 @@ abstract class AppRoutes {
 
   ///主要页面
   static const String MAIN='/main';
+
+  ///web页面
+  static const String WEB='/web';
 } 
